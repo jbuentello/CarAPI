@@ -7,6 +7,29 @@
     <title>CarAPI</title>
 </head>
 <body>
+     <button id="add-a-car">Add a Car</button>
+        <!-- <button id="buttonDiv"></button> -->
+            <div id="imagesGoHere">
+            </div>
+                <div id="topics">
+                </div>
+
+ 
     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+var topics = ["Supra", "Mustang","Lancer Evo", "Corvette", "Porsche","GTR"]
+for (var i = 0; i < topics.length; i++) {
+    var button = $('<button>' + topics [i] + '</button>')
+    button.appendTo('#topics');
+    console.log(topics);
+}
+//Event listener for Buttons
+$("")
+
+//Giphy API URL
+
+
+</script>
 </body>
 </html>
