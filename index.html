@@ -7,29 +7,89 @@
     <title>CarAPI</title>
 </head>
 <body>
-     <button id="add-a-car">Add a Car</button>
-        <!-- <button id="buttonDiv"></button> -->
-            <div id="imagesGoHere">
-            </div>
+     <div id="carInfo"></div>
                 <div id="topics">
                 </div>
+                    <form id="Car-Search">
+                        <label for="car-input">Car Search</label>
+                        <input type="text" id="car-input">
+                        <!-- Button triggers new movie to be added -->
+                        <input id="add-car" type="submit" value="Car Search">
+                    </form>
+              
 
  
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 var topics = ["Supra", "Mustang","Lancer Evo", "Corvette", "Porsche","GTR"]
-for (var i = 0; i < topics.length; i++) {
-    var button = $('<button>' + topics [i] + '</button>')
-    button.appendTo('#topics');
-    console.log(topics);
-}
-//Event listener for Buttons
-$("")
 
+function CarSearch() {
+
+var car= $(this).attr("data-name");
+//Giphy API URL
+
+var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=vKZAPU6BYAZ2vLLsyDzeFBYL1FKIMCvu&q="+ Car +"limit=10&offset=0&rating=PG-13&lang=en";
+
+
+//Ajax using method "GET"
+$.ajax({
+    url: queryURL,
+    method:"GET"
+}).then(function(response){
+    $("carInfo").text(JSON.stringify(response));
+});
+
+}
+
+
+// for (var i = 0; i < topics.length; i++) {
+//     var button = $('<button>' + topics [i] + '</button>')
+//     button.appendTo('#topics');
+//     console.log(topics);
+// }
+//Event listener for Buttons
+$("#topics").on("click",function() {
 //Giphy API URL
 
 
+event.preventDefault();
+
+// //Ajax using method "GET"
+// $.ajax({
+//     url: queryURL,
+//     method:"GET"
+// })
+
+//Promise- After the Data is Retrieved
+// .then(function(response) {
+
+// var Cartopic = $("<div class='cars'>");
+
+// var rating = response.Rated;
+
+// var firtPar = $("<p>").text ("Rating: " + rating);
+
+// Cartopic.append(firtPar);
+
+// var image = $("<img>").attr("src", imgURL);
+
+// Cartopic.append(image);
+
+// $("#imagesGoHere").prepend(Cartopic);
+
+
+
+
+console.log(response);
+})
+
+
+
+
+
+
+})
 </script>
 </body>
 </html>
