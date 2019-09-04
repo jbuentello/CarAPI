@@ -7,89 +7,97 @@
     <title>CarAPI</title>
 </head>
 <body>
-     <div id="carInfo"></div>
-                <div id="topics">
-                </div>
-                    <form id="Car-Search">
-                        <label for="car-input">Car Search</label>
-                        <input type="text" id="car-input">
-                        <!-- Button triggers new movie to be added -->
-                        <input id="add-car" type="submit" value="Car Search">
-                    </form>
+     
+            <div id="topics"></div>
+                    
+                <form id="Car-Search">
+                            <label for="car-input">Car Search</label>
+                            <input type="text" id="car-input">
+                            <input id="add-car" type="submit">
+                            <!-- value="Search"> -->
+                </form>
+                            
+            <div id="carInfo"></div>
               
 
  
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-var topics = ["Supra", "Mustang","Lancer Evo", "Corvette", "Porsche","GTR"]
+var topics = ["Supra", "Mustang","Lancer Evo", "Corvette", "Porsche","GTR"];
 
-function CarSearch() {
+function CarSearch(car) {
 
-var car= $(this).attr("data-name");
-//Giphy API URL
+    var car = $(this).attr("data-name");
+    console.log(car);
+    //Giphy API URL
 
-var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=vKZAPU6BYAZ2vLLsyDzeFBYL1FKIMCvu&q="+ Car +"limit=10&offset=0&rating=PG-13&lang=en";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=vKZAPU6BYAZ2vLLsyDzeFBYL1FKIMCvu&q=" +car+ "&limit=10&offset=0&rating=PG-13&lang=en";
 
 
-//Ajax using method "GET"
-$.ajax({
-    url: queryURL,
-    method:"GET"
-}).then(function(response){
-    $("carInfo").text(JSON.stringify(response));
+    //Ajax using method "GET"
+    $.ajax({
+        url: queryURL,
+        method:"GET"
+    }).then(function(response){
+        
+        var results = response.data
+        console.log(results)
+        console.log(results[9].rating);
+
+        for (var i = 0; i < results.length; i++) {
+            var carDiv = $("<div class=AppCar>");
+            var rating = results[i].rating;
+            var ratingHTMl = $("<p>").text(rating);
+            $(".AppCar").append(ratingHTMl); 
+            var CarImage= results[i].images.preview_gif.url;
+            // var ImageDiv= $("<div class=UrlImage>");
+            var ImageHTML =$("<img>").attr("src", CarImage);
+            $(".AppCar").append(ImageHTML);
+            $("#carInfo").prepend(carDiv);
+
+            // console.log(ImageHTMl); 
+            
+        }
+        
+        // $("#carInfo").text(JSON.stringify(results));
+    });
+};
+
+function onPressButton() {
+    $("#topics").empty();
+
+    //Reuse previous loop for diaplying buttons
+
+    for (var i = 0; i < topics.length; i++){
+        var addButton = $("<button>");
+        addButton.addClass("car");
+        addButton.attr("data-name", topics[i]);
+        addButton.text(topics[i]);
+
+        $("#topics").append(addButton);       
+    }
+};
+
+$("#add-car").on("click", function(event){
+    event.preventDefault();
+
+    var car = $("#car-input").val();
+
+    topics.push(car);
+    
+    onPressButton();
 });
 
-}
 
+$(document).on("click", ".car", CarSearch)
+onPressButton();
 
-// for (var i = 0; i < topics.length; i++) {
-//     var button = $('<button>' + topics [i] + '</button>')
-//     button.appendTo('#topics');
-//     console.log(topics);
-// }
-//Event listener for Buttons
-$("#topics").on("click",function() {
-//Giphy API URL
-
-
-event.preventDefault();
-
-// //Ajax using method "GET"
-// $.ajax({
-//     url: queryURL,
-//     method:"GET"
-// })
-
-//Promise- After the Data is Retrieved
-// .then(function(response) {
-
-// var Cartopic = $("<div class='cars'>");
-
-// var rating = response.Rated;
-
-// var firtPar = $("<p>").text ("Rating: " + rating);
-
-// Cartopic.append(firtPar);
-
-// var image = $("<img>").attr("src", imgURL);
-
-// Cartopic.append(image);
-
-// $("#imagesGoHere").prepend(Cartopic);
-
-
-
-
-console.log(response);
-})
-
-
-
-
-
-
-})
+//Connect to Giphy API using ajax.
+//Select the proper link to search for.
+//Create buttons to search the data
+//Once the data is pulled, set the information to the proper place
+//Set 
 </script>
 </body>
 </html>
