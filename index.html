@@ -16,7 +16,6 @@
                                 <label for="car-input">Car Search</label>
                                 <input type="text" id="car-input">
                                 <input id="add-car" type="submit">
-                                <!-- value="Search"> -->
                             </form>
                 </div>
             </div>
@@ -27,22 +26,15 @@
                 <div class="col-lg-6">
                     <div id="carInfo"></div>
                 </div>
-            
-
         </div>       
                    
-         
-
- 
-    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 var topics = ["Supra", "Mustang","Lancer Evo", "Corvette", "Porsche","GTR"];
 
-function CarSearch(car) {
+function CarSearch(){
 
     var car = $(this).attr("data-name");
-    console.log(car);
     //Giphy API URL
 
     var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=vKZAPU6BYAZ2vLLsyDzeFBYL1FKIMCvu&q=" +car+ "&limit=10&offset=0&rating=PG-13&lang=en";
@@ -59,21 +51,19 @@ function CarSearch(car) {
         // console.log(results[9].rating);
         // var carDiv = $("<div class=AppCar>");
         for (var i = 0; i < results.length; i++) {
-            
             var rating = results[i].rating;
             var ratingHTMl = $("<p>").text(rating);
             $("#carInfo").prepend(ratingHTMl); 
-            var CarImage= results[i].images.original.url;
+            var CarImageGif= results[i].images.original.url;
+            var CarImageStill= results[i].images.original_still.url;
             // var ImageDiv= $("<div class=UrlImage>");
-            var ImageHTML =$("<img>").attr("src", CarImage);
+            var ImageHTML =$("<img class=GIF>")
+            ImageHTML.attr("src", CarImageGif);
+            ImageHTML.attr("data-animate", CarImageGif);
+            ImageHTML.attr("data-still", CarImageStill);
+            ImageHTML.attr("data-state", "animate");
             $("#carInfo").prepend(ImageHTML);
-            console.log("here "+ i)
-            // console.log(ImageHTMl); 
-            
         }
-        // console.log(carDiv)
-        //  $("#carInfo").prepend(carDiv);
-        // $("#carInfo").text(JSON.stringify(results));
     });
 };
 
@@ -92,6 +82,19 @@ function onPressButton() {
     }
 };
 
+function pauseGIF(){
+    var GIFState = $(this).attr("data-state");
+
+    if(GIFState === "animate"){
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+        
+    }else {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+    }
+};
+
 $("#add-car").on("click", function(event){
     event.preventDefault();
 
@@ -102,8 +105,8 @@ $("#add-car").on("click", function(event){
     onPressButton();
 });
 
-
-$(document).on("click", ".car", CarSearch)
+$(document).on("click", ".car", CarSearch);
+$(document).on("click", ".GIF", pauseGIF);
 onPressButton();
 
 //Connect to Giphy API using ajax.
