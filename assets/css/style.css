@@ -1,0 +1,13 @@
+body {
+    background: rgb(62, 147, 226);
+}
+
+.container {
+    border: 3px solid black;
+}
+
+#carInfo {
+    border: 3px solid black;
+    float:left;
+    width: 100%;
+}
