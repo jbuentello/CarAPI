@@ -47,17 +47,14 @@ function CarSearch(){
     }).then(function(response){
         
         var results = response.data
-        console.log(results)
-        // console.log(results[9].rating);
-        // var carDiv = $("<div class=AppCar>");
+
         for (var i = 0; i < results.length; i++) {
             var rating = results[i].rating;
             var ratingHTMl = $("<p>").text(rating);
             $("#carInfo").prepend(ratingHTMl); 
             var CarImageGif= results[i].images.original.url;
             var CarImageStill= results[i].images.original_still.url;
-            // var ImageDiv= $("<div class=UrlImage>");
-            var ImageHTML =$("<img class=GIF>")
+            var ImageHTML =$("<img class=GIF>");
             ImageHTML.attr("src", CarImageGif);
             ImageHTML.attr("data-animate", CarImageGif);
             ImageHTML.attr("data-still", CarImageStill);
